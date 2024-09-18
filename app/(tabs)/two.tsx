@@ -1,31 +1,56 @@
-import { StyleSheet } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+const TodoListScreen = () => {
+  // Sample data (replace with data from local storage later)
+  const todos = [
+    { id: '1', task: 'Complete Bible discussion board' },
+    { id: '2', task: 'Grocery shopping' },
+  ];
 
-export default function TabTwoScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/two.tsx" />
+  const renderItem = ({ item }: { item: { id: string, task: string } }) => (
+    <View style={styles.todoItem}>
+      <Text style={styles.todoText}>{item.task}</Text>
     </View>
   );
-}
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Your Todo List</Text>
+      <FlatList
+        data={todos}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+      />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 20,
+    backgroundColor: '#333', // Changed to dark background
   },
   title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 24,
+    marginBottom: 20,
+    textAlign: 'center',
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  todoItem: {
+    padding: 15,
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 1,
+  },
+  todoText: {
+    fontSize: 18,
   },
 });
+
+export default TodoListScreen;
