@@ -1,15 +1,23 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import React, { useState } from 'react'; // Added useState
+import { View, Text, StyleSheet, FlatList } from 'react-native'; // Removed CheckBox
+import CheckBox from '@react-native-community/checkbox'; // Ensure this import is correct
 
 const TodoListScreen = () => {
-  // Sample data (replace with data from local storage later)
-  const todos = [
-    { id: '1', task: 'Complete Bible discussion board' },
-    { id: '2', task: 'Grocery shopping' },
-  ];
+  const [todos, setTodos] = useState([
+    { id: '1', task: 'Complete Bible discussion board', checked: false },
+    { id: '2', task: 'Grocery shopping', checked: false },
+  ]);
 
-  const renderItem = ({ item }: { item: { id: string, task: string } }) => (
+  
+  const toggleCheckbox = (id: string) => {
+    setTodos(todos.map(todo => 
+      todo.id === id ? { ...todo, checked: !todo.checked } : todo
+    ));
+  };
+
+  const renderItem = ({ item }: { item: { id: string, task: string, checked: boolean } }) => (
     <View style={styles.todoItem}>
+      <CheckBox value={item.checked} onValueChange={() => toggleCheckbox(item.id)} /> {/* CheckBox should be defined */}
       <Text style={styles.todoText}>{item.task}</Text>
     </View>
   );
@@ -54,3 +62,5 @@ const styles = StyleSheet.create({
 });
 
 export default TodoListScreen;
+
+console.log(CheckBox); // Add this line to check if CheckBox is imported correctly
